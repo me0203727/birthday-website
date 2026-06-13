@@ -110,25 +110,17 @@ st.write("")
 # ---------------- PHOTOS ----------------
 st.subheader("📸 Our Memories")
 
-if os.path.exists(PHOTO_FOLDER):
+images = [
+    f for f in os.listdir(".")
+    if f.lower().endswith((".jpg", ".jpeg", ".png"))
+]
 
-    images = [
-        f for f in os.listdir(PHOTO_FOLDER)
-        if f.lower().endswith((".jpg", ".jpeg", ".png"))
-    ]
-
-    if len(images) == 0:
-        st.warning("No photos found in the photos folder.")
-
-    else:
-        cols = st.columns(2)
-
-        for i, img in enumerate(images):
-            with cols[i % 2]:
-                st.image(
-                    os.path.join(PHOTO_FOLDER, img),
-                    use_container_width=True
-                )
+if len(images) == 0:
+    st.warning("No photos found.")
 
 else:
-    st.error("Photos folder not found!")
+    cols = st.columns(2)
+
+    for i, img in enumerate(images):
+        with cols[i % 2]:
+            st.image(img, use_container_width=True)
