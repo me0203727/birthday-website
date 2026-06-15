@@ -116,7 +116,6 @@ if not st.session_state.unlocked:
     st.stop()
 
 # ---------------- DO YOU LIKE ME PAGE ----------------
-# ---------------- DO YOU LIKE ME PAGE ----------------
 if not st.session_state.likes_me:
 
     st.markdown("""
