@@ -116,79 +116,64 @@ if not st.session_state.unlocked:
     st.stop()
 
 # ---------------- DO YOU LIKE ME PAGE ----------------
+# ---------------- DO YOU LIKE ME PAGE ----------------
 if not st.session_state.likes_me:
 
-    st.markdown(
-        "<h1 style='text-align:center;'>❤️ Do You Like Me? ❤️</h1>",
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <h1 style='text-align:center;'>
+    💖 Do You Like Me? 💖
+    </h1>
+    <h3 style='text-align:center;'>
+    Be honest... 🥺👉👈
+    </h3>
+    """, unsafe_allow_html=True)
 
-    st.write("")
-    st.write("")
+    yes_sizes = [24, 35, 50, 70]
+    no_sizes = [24, 18, 12, 0]
 
-    if st.session_state.no_count == 0:
+    stage = min(st.session_state.no_count, 3)
 
-        col1, col2 = st.columns(2)
+    yes_size = yes_sizes[stage]
+    no_size = no_sizes[stage]
 
-        with col1:
-            if st.button("❤️ YES ❤️"):
-                st.session_state.likes_me = True
-                st.rerun()
+    col1, col2 = st.columns(2)
 
-        with col2:
-            if st.button("💔 NO 💔"):
-                st.session_state.no_count += 1
-                st.rerun()
-
-    elif st.session_state.no_count == 1:
-
-        col1, col2 = st.columns([3, 1])
-
-        with col1:
-            st.markdown('<div class="medium-button">', unsafe_allow_html=True)
-            if st.button("❤️ YES ❤️"):
-                st.session_state.likes_me = True
-                st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        with col2:
-            st.markdown('<div class="small-button">', unsafe_allow_html=True)
-            if st.button("💔 NO 💔"):
-                st.session_state.no_count += 1
-                st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-    elif st.session_state.no_count == 2:
-
-        col1, col2 = st.columns([6, 1])
-
-        with col1:
-            st.markdown('<div class="big-button">', unsafe_allow_html=True)
-            if st.button("❤️ YES ❤️"):
-                st.session_state.likes_me = True
-                st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        with col2:
-            st.markdown('<div class="tiny-button">', unsafe_allow_html=True)
-            if st.button("💔 NO 💔"):
-                st.session_state.no_count += 1
-                st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-    else:
-
+    with col1:
         st.markdown(
-            "<h2 style='text-align:center;'>Only one option remains 😏❤️</h2>",
+            f"""
+            <style>
+            div.stButton > button:first-child {{
+                font-size: {yes_size}px;
+                height: {80 + stage*20}px;
+                width: 100%;
+            }}
+            </style>
+            """,
             unsafe_allow_html=True
         )
 
-        if st.button("❤️ YES ❤️"):
+        if st.button("💖 YES 💖"):
             st.session_state.likes_me = True
             st.rerun()
 
-    st.stop()
+    if no_size > 0:
+        with col2:
+            st.markdown(
+                f"""
+                <div style='text-align:center;'>
+                <button style='font-size:{no_size}px;padding:5px 10px;'>
+                💔 NO 💔
+                </button>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
+            if st.button("NO"):
+                st.session_state.no_count += 1
+                st.rerun()
+
+    st.stop()
 # ---------------- BIRTHDAY PAGE ----------------
 st.markdown(
     "<h1 style='text-align:center;'>🎉 Happy Birthday! 🎉</h1>",
