@@ -113,7 +113,6 @@ if not st.session_state.unlocked:
         on_change=check_password
     )
 
-    st.stop()
 # ---------------- DO YOU LIKE ME PAGE ----------------
 if not st.session_state.likes_me:
 
@@ -127,43 +126,39 @@ if not st.session_state.likes_me:
     </h3>
     """, unsafe_allow_html=True)
 
+    yes_sizes = [1, 2, 3, 5]
+    no_sizes = [3, 2, 1, 0]
+
     stage = min(st.session_state.no_count, 3)
 
-    yes_hearts = ["❤️", "❤️❤️", "❤️❤️❤️", "❤️❤️❤️❤️❤️"]
-    no_hearts = ["💙", "💙", "💙", ""]
+    if stage < 3:
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns([yes_sizes[stage], no_sizes[stage]])
 
-    with col1:
-        if st.button(
-            yes_hearts[stage],
-            key=f"yes_{stage}",
-            use_container_width=True
-        ):
-            st.session_state.likes_me = True
-            st.rerun()
+        with col1:
+            if st.button("❤️ YES ❤️", use_container_width=True):
+                st.session_state.likes_me = True
+                st.rerun()
 
-    with col2:
-        if stage < 3:
-            if st.button(
-                no_hearts[stage],
-                key=f"no_{stage}",
-                use_container_width=True
-            ):
+        with col2:
+            if st.button("💙 NO 💙", use_container_width=True):
                 st.session_state.no_count += 1
                 st.rerun()
 
-    st.markdown(f"""
-    <style>
+    else:
 
-    div[data-testid="stButton"] button {{
-        height: 140px;
-        font-size: {60 + stage*25}px !important;
-        border-radius: 50%;
-    }}
+        st.markdown(
+            """
+            <h2 style='text-align:center; color:pink;'>
+            💖 I think I already know the answer 💖
+            </h2>
+            """,
+            unsafe_allow_html=True
+        )
 
-    </style>
-    """, unsafe_allow_html=True)
+        if st.button("❤️ YES ❤️", use_container_width=True):
+            st.session_state.likes_me = True
+            st.rerun()
 
     st.stop()
 # ---------------- BIRTHDAY PAGE ----------------
