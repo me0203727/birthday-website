@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 # ---------------- SETTINGS ----------------
-PASSWORD = "1234"
+PASSWORD = "16sept2010"
 
 # ---------------- SESSION STATE ----------------
 if "unlocked" not in st.session_state:
