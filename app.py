@@ -114,7 +114,6 @@ if not st.session_state.unlocked:
     )
 
     st.stop()
-
 # ---------------- DO YOU LIKE ME PAGE ----------------
 if not st.session_state.likes_me:
 
@@ -122,55 +121,49 @@ if not st.session_state.likes_me:
     <h1 style='text-align:center;'>
     💖 Do You Like Me? 💖
     </h1>
+
     <h3 style='text-align:center;'>
     Be honest... 🥺👉👈
     </h3>
     """, unsafe_allow_html=True)
 
-    yes_sizes = [24, 35, 50, 70]
-    no_sizes = [24, 18, 12, 0]
-
     stage = min(st.session_state.no_count, 3)
 
-    yes_size = yes_sizes[stage]
-    no_size = no_sizes[stage]
+    yes_hearts = ["❤️", "❤️❤️", "❤️❤️❤️", "❤️❤️❤️❤️❤️"]
+    no_hearts = ["💙", "💙", "💙", ""]
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown(
-            f"""
-            <style>
-            div.stButton > button:first-child {{
-                font-size: {yes_size}px;
-                height: {80 + stage*20}px;
-                width: 100%;
-            }}
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-
-        if st.button("💖 YES 💖"):
+        if st.button(
+            yes_hearts[stage],
+            key=f"yes_{stage}",
+            use_container_width=True
+        ):
             st.session_state.likes_me = True
             st.rerun()
 
-    if no_size > 0:
-        with col2:
-            st.markdown(
-                f"""
-                <div style='text-align:center;'>
-                <button style='font-size:{no_size}px;padding:5px 10px;'>
-                💔 NO 💔
-                </button>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-            if st.button("NO"):
+    with col2:
+        if stage < 3:
+            if st.button(
+                no_hearts[stage],
+                key=f"no_{stage}",
+                use_container_width=True
+            ):
                 st.session_state.no_count += 1
                 st.rerun()
+
+    st.markdown(f"""
+    <style>
+
+    div[data-testid="stButton"] button {{
+        height: 140px;
+        font-size: {60 + stage*25}px !important;
+        border-radius: 50%;
+    }}
+
+    </style>
+    """, unsafe_allow_html=True)
 
     st.stop()
 # ---------------- BIRTHDAY PAGE ----------------
