@@ -3,11 +3,16 @@ import os
 
 # ---------------- SETTINGS ----------------
 PASSWORD = "1234"
-PHOTO_FOLDER = "photos"
 
 # ---------------- SESSION STATE ----------------
 if "unlocked" not in st.session_state:
     st.session_state.unlocked = False
+
+if "likes_me" not in st.session_state:
+    st.session_state.likes_me = False
+
+if "no_count" not in st.session_state:
+    st.session_state.no_count = 0
 
 def check_password():
     if st.session_state.password_input == PASSWORD:
@@ -60,6 +65,23 @@ st.markdown(f"""
     }}
 }}
 
+.big-button button {{
+    font-size: 40px !important;
+    padding: 20px !important;
+}}
+
+.medium-button button {{
+    font-size: 25px !important;
+}}
+
+.small-button button {{
+    font-size: 12px !important;
+}}
+
+.tiny-button button {{
+    font-size: 8px !important;
+}}
+
 </style>
 
 <div class="hearts">
@@ -93,6 +115,80 @@ if not st.session_state.unlocked:
 
     st.stop()
 
+# ---------------- DO YOU LIKE ME PAGE ----------------
+if not st.session_state.likes_me:
+
+    st.markdown(
+        "<h1 style='text-align:center;'>❤️ Do You Like Me? ❤️</h1>",
+        unsafe_allow_html=True
+    )
+
+    st.write("")
+    st.write("")
+
+    if st.session_state.no_count == 0:
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("❤️ YES ❤️"):
+                st.session_state.likes_me = True
+                st.rerun()
+
+        with col2:
+            if st.button("💔 NO 💔"):
+                st.session_state.no_count += 1
+                st.rerun()
+
+    elif st.session_state.no_count == 1:
+
+        col1, col2 = st.columns([3, 1])
+
+        with col1:
+            st.markdown('<div class="medium-button">', unsafe_allow_html=True)
+            if st.button("❤️ YES ❤️"):
+                st.session_state.likes_me = True
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        with col2:
+            st.markdown('<div class="small-button">', unsafe_allow_html=True)
+            if st.button("💔 NO 💔"):
+                st.session_state.no_count += 1
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    elif st.session_state.no_count == 2:
+
+        col1, col2 = st.columns([6, 1])
+
+        with col1:
+            st.markdown('<div class="big-button">', unsafe_allow_html=True)
+            if st.button("❤️ YES ❤️"):
+                st.session_state.likes_me = True
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        with col2:
+            st.markdown('<div class="tiny-button">', unsafe_allow_html=True)
+            if st.button("💔 NO 💔"):
+                st.session_state.no_count += 1
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    else:
+
+        st.markdown(
+            "<h2 style='text-align:center;'>Only one option remains 😏❤️</h2>",
+            unsafe_allow_html=True
+        )
+
+        if st.button("❤️ YES ❤️"):
+            st.session_state.likes_me = True
+            st.rerun()
+
+    st.stop()
+
 # ---------------- BIRTHDAY PAGE ----------------
 st.markdown(
     "<h1 style='text-align:center;'>🎉 Happy Birthday! 🎉</h1>",
@@ -100,7 +196,11 @@ st.markdown(
 )
 
 st.markdown(
-    "<h3 style='text-align:center;'>I hope your day is filled with happiness, laughter and lots of cake! 🎂💖</h3>",
+    """
+    <h3 style='text-align:center;'>
+    I hope your day is filled with happiness, laughter, love and lots of cake! 🎂💖
+    </h3>
+    """,
     unsafe_allow_html=True
 )
 
