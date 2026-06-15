@@ -126,10 +126,10 @@ if not st.session_state.likes_me:
     </h3>
     """, unsafe_allow_html=True)
 
-    yes_sizes = [1, 2, 3, 5]
-    no_sizes = [3, 2, 1, 0]
-
     stage = min(st.session_state.no_count, 3)
+
+    yes_sizes = [1, 2, 4, 6]
+    no_sizes = [4, 2, 1, 0]
 
     if stage < 3:
 
@@ -147,14 +147,11 @@ if not st.session_state.likes_me:
 
     else:
 
-        st.markdown(
-            """
-            <h2 style='text-align:center; color:pink;'>
-            💖 I think I already know the answer 💖
-            </h2>
-            """,
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <h2 style='text-align:center; color:pink;'>
+        💖 You know you want to click it 💖
+        </h2>
+        """, unsafe_allow_html=True)
 
         if st.button("❤️ YES ❤️", use_container_width=True):
             st.session_state.likes_me = True
