@@ -113,6 +113,9 @@ if not st.session_state.unlocked:
         on_change=check_password
     )
 
+    st.stop()
+
+
 # ---------------- DO YOU LIKE ME PAGE ----------------
 if not st.session_state.likes_me:
 
@@ -128,8 +131,9 @@ if not st.session_state.likes_me:
 
     stage = min(st.session_state.no_count, 3)
 
-    yes_sizes = [1, 2, 4, 6]
-    no_sizes = [4, 2, 1, 0]
+    # Equal size at start
+    yes_sizes = [3, 4, 6, 8]
+    no_sizes = [3, 2, 1, 0]
 
     if stage < 3:
 
@@ -149,7 +153,7 @@ if not st.session_state.likes_me:
 
         st.markdown("""
         <h2 style='text-align:center; color:pink;'>
-        💖 You know you want to click it 💖
+        💖 I think I already know the answer 💖
         </h2>
         """, unsafe_allow_html=True)
 
